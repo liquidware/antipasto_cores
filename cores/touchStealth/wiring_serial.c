@@ -56,7 +56,7 @@ SIGNAL(SIG_USART1_RECV)
 
 void serialBegin(unsigned long baud)
 {
-	/*
+	
 	//disable hardware UART
 	CLRBIT(UCSR0B,RXEN0);	
 	CLRBIT(UCSR0B,TXEN0);
@@ -65,13 +65,13 @@ void serialBegin(unsigned long baud)
 	SETBIT(RXTX_PORT, TX_PIN);  //idle state
 	SETBIT(RXTX_DDR, TX_PIN);	//output
 	CLRBIT(RXTX_DDR, RX_PIN);	//input
-	sei(); */
+	sei(); 
 }
 
 void serialWrite(unsigned char c)
 {
 
-	/*
+
 volatile unsigned int x;
 volatile unsigned char bits=0;
 
@@ -103,13 +103,16 @@ SETBIT(RXTX_PORT, TX_PIN);
 for(x=0; x<90; x++) {;}
 
 sei(); //enable interrupts
-*/
+
 }
 
 int serialAvailable()
 {
     //return(RX_BUFFER_SIZE + rx_buffer_head - rx_buffer_tail) % RX_BUFFER_SIZE;
-    return 0; //for now
+
+    return 1; //always return 1, serialAvailable is usually followed by a serialRead(), 
+              //and since because we don't support interrupt based software serial. 
+              //This forces the application into a blocking read.
 }
 
 int serialRead()
